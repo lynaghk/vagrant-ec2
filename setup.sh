@@ -1,6 +1,6 @@
 #!/bin/bash
 #This script uploads everything required for `chef-solo` to run
-set -x -e
+set -e
 
 if test -z "$2"
 then
@@ -12,6 +12,7 @@ fi
 
 
 #Run the Ruby script that reads Vagrantfile to make dna.json and cookbook tarball
+echo "Making cookbooks tarball and dna.json"
 ruby ec2_package.rb $2
 
 IP=$1
@@ -23,13 +24,14 @@ DNA=$2/dna.json
 CHEF_FILE_CACHE_PATH=/tmp/cheftime
 
 #Upload everything to the home directory (need to use sudo to copy over to $CHEF_FILE_CACHE_PATH and run chef)
+echo "Uploading cookbooks tarball and dna.json"
 scp -i $EC2_SSH_PRIVATE_KEY -r \
   $COOKBOOK_TARBALL \
   $DNA \
   $USERNAME@$IP:.
 
-eval "$SSH -t -l \"$USERNAME\" -i \"$EC2_SSH_PRIVATE_KEY\" $USERNAME@$IP \"sudo -i 'cd $CHEF_FILE_CACHE_PATH && \
+echo "Running chef-solo"
+eval "ssh -t -l \"$USERNAME\" -i \"$EC2_SSH_PRIVATE_KEY\" $USERNAME@$IP \"sudo -i 'cd $CHEF_FILE_CACHE_PATH && \
 cp -r /home/$USERNAME/cookbooks.tgz . && \
 cp -r /home/$USERNAME/dna.json . && \
-cp -r /home/$USERNAME/file_cache /var/ && \
 chef-solo -c solo.rb -j dna.json -r cookbooks.tgz'\""

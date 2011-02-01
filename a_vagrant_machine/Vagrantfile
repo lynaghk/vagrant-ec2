@@ -13,7 +13,7 @@ Vagrant::Config.run do |config|
 
     chef.json.merge!({
                        :monit => {
-                         :start_delay => 45,
+                         :start_delay => 15,
                          :interval => 30,
                          :web => {
                            :enabled => true
