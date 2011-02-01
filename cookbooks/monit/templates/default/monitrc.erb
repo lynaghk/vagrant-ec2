@@ -1,0 +1,43 @@
+########################################################################
+### NOTICE: this file managed by chef; changes made here will be lost.
+########################################################################
+
+########################################################################
+### Global section
+########################################################################
+
+# enable monit checks every <%= node.monit.interval %> seconds
+set daemon <%= node.monit.interval %>
+<% if node.monit.start_delay > 0 %>
+    with start delay <%= node.monit.start_delay %>
+<% end %>
+
+# log to syslog's 'daemon' facility
+set logfile syslog facility log_daemon
+
+# send mail through <%= node.monit.mail.server %>
+set mailserver <%= node.monit.mail.server %>
+
+# send mail from <%= node.monit.mail.from %>
+# with subject <%= node.monit.mail.subject %>
+set mail-format {
+    from: <%= node.monit.mail.from %>
+    subject: <%= node.monit.mail.subject %>
+}
+
+# send mail to <%= node.monit.mail.to %>
+set alert <%= node.monit.mail.to %>
+
+<% if node.monit.web.enabled %>
+# enable the web ui on port <%= node.monit.web.port %>
+set httpd port <%= node.monit.web.port %> and
+    use address <%= node.monit.web.bind_to %> # bind to <%= node.monit.web.bind_to %>
+    allow <%= node.monit.web.allow %> # only allow connections from <%= node.monit.web.allow %>
+<% end %>
+
+###############################################################################
+## Services
+###############################################################################
+
+# Load service definitions from /etc/monit/conf.d
+include /etc/monit/conf.d/*

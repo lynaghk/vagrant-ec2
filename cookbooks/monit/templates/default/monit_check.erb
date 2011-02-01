@@ -1,0 +1,23 @@
+########################################################################
+### NOTICE: this file managed by chef; changes made here will be lost.
+########################################################################
+
+check process <%= @name %> with pidfile <%= @pidfile %>
+    start program = "<%= @start_command %>"
+    stop program  = "<%= @stop_command  %>"
+
+    <% if @memory_limit %>
+    if totalmem is greater than <%= @memory_limit %>
+    <% if @memory_limit_cycles %>
+        for <%= @memory_limit_cycles %> cycles
+    <% end %>
+        then <%= @memory_limit_action %>
+    <% end %>
+
+    <% if @cpu_limit %>
+    if cpu is greater than <%= @cpu_limit %>
+    <% if @cpu_limit_cycles %>
+        for <%= @cpu_limit_cycles %> cycles
+    <% end %>
+        then <%= @cpu_limit_action %>
+    <% end %>

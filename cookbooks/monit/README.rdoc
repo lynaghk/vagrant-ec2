@@ -1,0 +1,60 @@
+= DESCRIPTION:
+
+Installs/configures monit
+
+= REQUIREMENTS:
+
+Tested on Ubuntu 10.04.1 LTS
+
+= ATTRIBUTES:
+
+=== Basic Settings
+monit.interval:: check services every n seconds. defaults to 120
+monit.start_delay:: delay initial check by n seconds. defaults to 240.
+
+=== Mail Settings
+monit.mail.server:: send mail through the given SMTP server. defaults to localhost
+monit.mail.from:: send mail from the given address. defaults to monit@FQDN
+monit.mail.to:: send mail to the given address. defaults to ops@example.com
+monit.mail.subject:: set the subject for emails. defaults to "monit alert -- $SERVICE $EVENT"
+
+=== Web UI Settings
+monit.web.enabled:: whether to enable the web ui. defaults to false
+monit.web.bind_to:: the address to bind to. defaults to localhost
+monit.web.port:: the port to bind to. defaults to 2812.
+monit.web.allow:: the ip/cidr/hostname of who can connect. defaults to localhost
+
+= USAGE:
+
+  include_recipe "monit"
+
+  monit_check "some_process" do
+    pidfile "/path/to/file.pid"
+
+    start_command "/etc/init.d/some_process start"
+    stop_command  "/etc/init.d/some_process stop"
+
+    memory_limit "100 MB"
+    memory_limit_cycles "3 times within 5"
+    memory_limit_action "restart"
+
+    cpu_limit "90%"
+    cpu_limit_cycles 5
+    cpu_limit_action "restart"
+  end
+
+= LICENSE
+
+Copyright 2010, Estately, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
