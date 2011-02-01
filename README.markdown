@@ -3,40 +3,36 @@ Vagrant + EC2
 
 This repository shows how to use the same `chef-solo` based provisioning scheme for Vagrant virtual machines and Amazon's EC2.
 This is useful because you'll be able to test the deployment procedures as you develop within a clean Vagrant machine.
-Running continuous deployment locally also saves many partial instance-hours, which can run into the hundreds of cents (I'm not made of money, people).
+Running continuous deployment locally also saves tons of partial instance-hours, which can run into the hundreds of cents (I'm not made of money, people).
 
 
+Development
+===========
+Just use Vagrant as you normally would:
+  cd a_vagrant_machine/
+  vagrant up
+  vagrant ssh
 
+Deploy to EC2
+=============
 
-
-
-
-SETUP USING CHEF
-===============
-Setup config is the virtual_machines repo in the Vagrant file, then run any vagrant command (or just `vagrant`) to parse and print out a dna.json.
-Then run `ec2_package.rb` in virtual_machines repo to make a cookbook tarball.
-Point `setup.sh` to these files, then run the following:
-
+Start up a new EC2 instance (in this case, the ami is an Ubuntu 10.10 64-bit server)
 ec2-run-instances ami-af7e2eea                 \
   --instance-type t1.micro                     \
   --key yournamehere                           \
-  --user-data-file bootstrap_chef/bootstrap.sh
+  --user-data-file bootstrap.sh
 
-Find its IP with    
+find its IP with
   ec2-describe-instances
 
-To open up a plain ssh console (must run `ec2-authorize default -p 22` once)
-  ssh -i $EC2_SSH_PRIVATE_KEY ubuntu@<ip address>
-
-To configure with chef
+and provision by running
   ./setup.sh <ip address>
 
 
 DONE!
 
-finish up & close down
+Don't forget to turn off your instances when you're done:
   ec2-terminate-instances <i-instance_id>
-
 
 
 
@@ -44,7 +40,7 @@ finish up & close down
 Setup controlling machine
 =========================
 
-On your machine, you will need the following
+On your local machine, you will need the following
 
 + [ec2-api-tools](http://packages.ubuntu.com/maverick/ec2-api-tools) Ubuntu multiverse package (this is not currently in Debian Apt repositories; you'll need to download the Ubuntu `.deb` package  and use `dpkg --install`)
 + [VirtualBox 4](http://www.virtualbox.org/wiki/Downloads)
