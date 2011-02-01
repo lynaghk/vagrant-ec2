@@ -25,6 +25,6 @@ Dir.chdir(ARGV[0]) do
     }
   }
   
-  `tar cvzf cookbooks.tgz --files-from recipe_list`
+  `tar czf cookbooks.tgz --files-from recipe_list 2> /dev/null`
   `rm recipe_list`
 end
