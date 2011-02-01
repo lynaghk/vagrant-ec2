@@ -11,7 +11,7 @@ Dir.chdir(ARGV[0]) do
   `vagrant` 
   
   recipe_names = JSON.parse(open('dna.json').read)["run_list"].map{|x|
-    x.match(/\[.+\]/).string.gsub(/(\[|\])/, '')
+    x.gsub('recipe', '').gsub(/(\[|\])/, '').gsub(/::.*$/, '')
   }.uniq
 
   open('recipe_list', 'w'){|f|
