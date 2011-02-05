@@ -36,6 +36,22 @@ Don't forget to turn off your instances when you're done:
     ec2-terminate-instances <i-instance_id>
 
 
+
+Converting existing Vagrantfiles
+================================
+Just add three lines in the provisioning section of your `Vagrantfile` so it looks like this:
+
+    config.vm.provision :chef_solo do |chef|
+
+      <your provisioning here>
+
+      require 'json'
+      open('dna.json', 'w'){|f| f.write chef.json.to_json}
+      open('.cookbooks_path.json', 'w'){|f| f.puts JSON.generate chef.cookbooks_path }      
+
+    end
+
+
 Setup local machine
 ===================
 On your local machine, you will need the following
