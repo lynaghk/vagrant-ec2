@@ -13,7 +13,7 @@ fi
 
 #Run the Ruby script that reads Vagrantfile to make dna.json and cookbook tarball
 echo "Making cookbooks tarball and dna.json"
-ruby ec2_package.rb $2
+ruby `dirname $0`/ec2_package.rb $2
 
 IP=$1
 USERNAME=ubuntu
