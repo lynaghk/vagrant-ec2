@@ -15,7 +15,16 @@ fi
 echo "Making cookbooks tarball and dna.json"
 ruby `dirname $0`/ec2_package.rb $2
 
-IP=$1
+
+#Try to match and extract a port provided to the script
+ADDR=$1
+IP=${ADDR%:*}
+PORT=${ADDR#*:}
+if [ "$IP" == "$PORT" ]
+  then
+    PORT=22
+fi
+
 USERNAME=ubuntu
 COOKBOOK_TARBALL=$2/cookbooks.tgz
 DNA=$2/dna.json
@@ -25,13 +34,13 @@ CHEF_FILE_CACHE_PATH=/tmp/cheftime
 
 #Upload everything to the home directory (need to use sudo to copy over to $CHEF_FILE_CACHE_PATH and run chef)
 echo "Uploading cookbooks tarball and dna.json"
-scp -i $EC2_SSH_PRIVATE_KEY -r \
+scp -i $EC2_SSH_PRIVATE_KEY -r -P $PORT \
   $COOKBOOK_TARBALL \
   $DNA \
   $USERNAME@$IP:.
 
 echo "Running chef-solo"
-eval "ssh -t -l \"$USERNAME\" -i \"$EC2_SSH_PRIVATE_KEY\" $USERNAME@$IP \"sudo -i 'cd $CHEF_FILE_CACHE_PATH && \
+eval "ssh -t -p \"$PORT\" -l \"$USERNAME\" -i \"$EC2_SSH_PRIVATE_KEY\" $USERNAME@$IP \"sudo -i 'cd $CHEF_FILE_CACHE_PATH && \
 cp -r /home/$USERNAME/cookbooks.tgz . && \
 cp -r /home/$USERNAME/dna.json . && \
 chef-solo -c solo.rb -j dna.json -r cookbooks.tgz'\""
