@@ -1,4 +1,4 @@
-#!/bin/env ruby
+#!/usr/bin/env ruby
 #Make a tarball of only the recipes called in dna.json
 #Takes as an argument the path to a Vagrant VM's folder.
 require 'rubygems'

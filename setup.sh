@@ -1,6 +1,5 @@
 #!/bin/bash
 #This script uploads everything required for `chef-solo` to run
-set -e
 
 if test -z "$2"
 then
@@ -20,8 +19,8 @@ ruby `dirname $0`/ec2_package.rb $2
 ADDR=$1
 IP=${ADDR%:*}
 PORT=${ADDR#*:}
-if [ "$IP" == "$PORT" ]
-  then
+if [ "$IP" == "$PORT" ] ; then
+  
     PORT=22
 fi
 
@@ -40,6 +39,16 @@ scp -i $EC2_SSH_PRIVATE_KEY -r -P $PORT \
   $USERNAME@$IP:.
 
 echo "Running chef-solo"
+
+#check to see if the bootstrap script has completed running
+eval "ssh -q -t -p \"$PORT\" -l \"$USERNAME\" -i \"$EC2_SSH_PRIVATE_KEY\" $USERNAME@$IP \"sudo -i 'which chef-solo' > /dev/null \""
+
+if [ "$?" -ne "0" ] ; then
+    echo "chef-solo not found on remote machine; it is probably still bootstrapping, give it a minute."
+    exit
+fi
+  
+#Okay, run it.
 eval "ssh -t -p \"$PORT\" -l \"$USERNAME\" -i \"$EC2_SSH_PRIVATE_KEY\" $USERNAME@$IP \"sudo -i 'cd $CHEF_FILE_CACHE_PATH && \
 cp -r /home/$USERNAME/cookbooks.tgz . && \
 cp -r /home/$USERNAME/dna.json . && \

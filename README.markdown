@@ -2,6 +2,7 @@ Vagrant-EC2
 =============
 This repository shows how to use the same `chef-solo`-based provisioning scheme for Vagrant virtual machines and Amazon's EC2. This is useful because you'll be able to test the deployment procedures as you develop within a clean Vagrant machine. Running continuous deployment locally also saves tons of partial instance-hours, which can run into the hundreds of cents (I'm not made of money, people).
 
+These scripts have been tested only on Ubuntu Linux.
 
 Development (local)
 ===================
@@ -31,7 +32,7 @@ and provision it using the same recipes as the demo Vagrant machine machine by r
 
 DONE!
 
-Don't forget to turn off your instances when you're done:
+Don't forget to turn off your instances when you're finished:
 
     ec2-terminate-instances <i-instance_id>
 
