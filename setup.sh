@@ -41,7 +41,7 @@ scp -i $EC2_SSH_PRIVATE_KEY -r -P $PORT \
 echo "Running chef-solo"
 
 #check to see if the bootstrap script has completed running
-eval "ssh -q -t -p \"$PORT\" -l \"$USERNAME\" -i \"$EC2_SSH_PRIVATE_KEY\" $USERNAME@$IP \"sudo -i 'which chef-solo' > /dev/null \""
+eval "ssh -q -t -p \"$PORT\" -l \"$USERNAME\" -i \"$EC2_SSH_PRIVATE_KEY\" $USERNAME@$IP \"sudo -i which chef-solo > /dev/null \""
 
 if [ "$?" -ne "0" ] ; then
     echo "chef-solo not found on remote machine; it is probably still bootstrapping, give it a minute."
@@ -49,7 +49,7 @@ if [ "$?" -ne "0" ] ; then
 fi
   
 #Okay, run it.
-eval "ssh -t -p \"$PORT\" -l \"$USERNAME\" -i \"$EC2_SSH_PRIVATE_KEY\" $USERNAME@$IP \"sudo -i 'cd $CHEF_FILE_CACHE_PATH && \
+eval "ssh -t -p \"$PORT\" -l \"$USERNAME\" -i \"$EC2_SSH_PRIVATE_KEY\" $USERNAME@$IP \"sudo -i sh -c 'cd $CHEF_FILE_CACHE_PATH && \
 cp -r /home/$USERNAME/cookbooks.tgz . && \
 cp -r /home/$USERNAME/dna.json . && \
 chef-solo -c solo.rb -j dna.json -r cookbooks.tgz'\""
