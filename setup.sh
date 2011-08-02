@@ -1,5 +1,6 @@
 #!/bin/bash
 #This script uploads everything required for `chef-solo` to run
+set -e
 
 if test -z "$2"
 then
@@ -8,6 +9,7 @@ then
 2) Path to a Vagrant VM folder (a folder containing a Vagrantfile) that you want me to extract Chef recipes from"
   exit 1
 fi
+
 
 
 #Run the Ruby script that reads Vagrantfile to make dna.json and cookbook tarball
