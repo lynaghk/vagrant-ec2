@@ -70,3 +70,12 @@ Add to your .bashrc
     EC2_SSH_PRIVATE_KEY=/path/to/pk-yournamehere.pem
     JAVA_HOME=/usr/lib/jvm/java-6-sun/
     EC2_URL=https://ec2.us-west-1.amazonaws.com
+
+
+More details
+============
+See the official page for more details: [http://keminglabs.com/vagrant-ec2/](http://keminglabs.com/vagrant-ec2/).
+
+Thanks
+======
+This project is sponsored by [Keming Labs](http://keminglabs.com), a technical design studio specializing in data visualization.
