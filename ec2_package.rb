@@ -6,7 +6,11 @@ require 'json'
 
 Dir.chdir(ARGV[0]) do
   #run vagrant to parse the `Vagrantfile` and write out `dna.json` and `.cookbooks_path.json`.
-  `vagrant` 
+  res = `vagrant`
+  if $?.exitstatus != 0
+    puts res
+    exit 1
+  end
   CookbooksPath = [JSON.parse(open('.cookbooks_path.json').read)].flatten
   
   recipe_names = JSON.parse(open('dna.json').read)["run_list"].map{|x|
