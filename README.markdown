@@ -41,6 +41,7 @@ Don't forget to turn off your instances when you're finished:
 Converting existing Vagrantfiles
 ================================
 Just add three lines in the provisioning section of your `Vagrantfile` so it looks like this:
+Note: fixed problem (tar command does not have --transform option) on MacOS X
 
     config.vm.provision :chef_solo do |chef|
 
@@ -54,7 +55,7 @@ Just add three lines in the provisioning section of your `Vagrantfile` so it loo
         open('.cookbooks_path.json', 'w') do |f|
         f.puts JSON.generate([chef.cookbooks_path]
                                .flatten
-                               .map{|x| File.expand_path(x)})
+                               .map{|x| x})
       end
     end
 

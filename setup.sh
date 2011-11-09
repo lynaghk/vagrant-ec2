@@ -4,7 +4,7 @@ set -e
 
 if test -z "$2"
 then
-  echo "I need 
+  echo "I need
 1) IP address of a machine to provision
 2) Path to a Vagrant VM folder (a folder containing a Vagrantfile) that you want me to extract Chef recipes from"
   exit 1
@@ -22,7 +22,7 @@ ADDR=$1
 IP=${ADDR%:*}
 PORT=${ADDR#*:}
 if [ "$IP" == "$PORT" ] ; then
-  
+
     PORT=22
 fi
 
