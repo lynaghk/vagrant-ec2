@@ -28,9 +28,7 @@ Vagrant::Config.run do |config|
       f.write chef.json.to_json
     end
     open('.cookbooks_path.json', 'w') do |f|
-      f.puts JSON.generate([chef.cookbooks_path]
-                             .flatten
-                             .map{|x| File.expand_path(x)})
+      f.puts JSON.generate([chef.cookbooks_path].flatten)
     end
   end
 end

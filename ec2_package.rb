@@ -33,7 +33,8 @@ Dir.chdir(ARGV[0]) do
   }
   #Have tar chop off all of the relative file business prefixes so we can just
   #upload everything to the same cookbooks directory
-  transforms = CookbooksPath.map{|path| "--transform=s,^#{path.gsub(/^\//, '')},cookbooks, "}
-  `tar czf cookbooks.tgz --files-from recipe_list #{transforms*' '} 2> /dev/null`
+  #transforms = CookbooksPath.map{|path| "--transform=s,^#{path.gsub(/^\//, '')},cookbooks, "}
+  #`tar czf cookbooks.tgz --files-from recipe_list #{transforms*' '} 2> /dev/null`
+  `tar czf cookbooks.tgz --files-from recipe_list 2> /dev/null`
   `rm recipe_list`
 end
