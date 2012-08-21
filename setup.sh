@@ -49,9 +49,9 @@ if [ "$?" -ne "0" ] ; then
     echo "chef-solo not found on remote machine; it is probably still bootstrapping, give it a minute."
     exit
 fi
-  
+
 #Okay, run it.
-eval "ssh -t -p \"$PORT\" -l \"$USERNAME\" -i \"$EC2_SSH_PRIVATE_KEY\" $USERNAME@$IP \"sudo -i sh -c 'cd $CHEF_FILE_CACHE_PATH && \
-cp -r /home/$USERNAME/cookbooks.tgz . && \
-cp -r /home/$USERNAME/dna.json . && \
-chef-solo -c solo.rb -j dna.json -r cookbooks.tgz'\""
+eval "ssh -t -p \"$PORT\" -l \"$USERNAME\" -i \"$EC2_SSH_PRIVATE_KEY\" $USERNAME@$IP \"sudo -i sh -c '\
+cp -r /home/$USERNAME/cookbooks.tgz $CHEF_FILE_CACHE_PATH && \
+cp -r /home/$USERNAME/dna.json $CHEF_FILE_CACHE_PATH && \
+chef-solo -c $CHEF_FILE_CACHE_PATH/solo.rb -j $CHEF_FILE_CACHE_PATH/dna.json -r $CHEF_FILE_CACHE_PATH/cookbooks.tgz'\""
