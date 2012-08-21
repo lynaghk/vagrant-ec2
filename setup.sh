@@ -4,7 +4,7 @@ set -e
 
 if test -z "$2"
 then
-  echo "I need 
+  echo "I need
 1) IP address of a machine to provision
 2) Path to a Vagrant VM folder (a folder containing a Vagrantfile) that you want me to extract Chef recipes from"
   exit 1
@@ -22,7 +22,7 @@ ADDR=$1
 IP=${ADDR%:*}
 PORT=${ADDR#*:}
 if [ "$IP" == "$PORT" ] ; then
-  
+
     PORT=22
 fi
 
@@ -49,9 +49,9 @@ if [ "$?" -ne "0" ] ; then
     echo "chef-solo not found on remote machine; it is probably still bootstrapping, give it a minute."
     exit
 fi
-  
+
 #Okay, run it.
-eval "ssh -t -p \"$PORT\" -l \"$USERNAME\" -i \"$EC2_SSH_PRIVATE_KEY\" $USERNAME@$IP \"sudo -i sh -c 'cd $CHEF_FILE_CACHE_PATH && \
-cp -r /home/$USERNAME/cookbooks.tgz . && \
-cp -r /home/$USERNAME/dna.json . && \
-chef-solo -c solo.rb -j dna.json -r cookbooks.tgz'\""
+eval "ssh -t -p \"$PORT\" -l \"$USERNAME\" -i \"$EC2_SSH_PRIVATE_KEY\" $USERNAME@$IP \"sudo -i sh -c '\
+cp -r /home/$USERNAME/cookbooks.tgz $CHEF_FILE_CACHE_PATH && \
+cp -r /home/$USERNAME/dna.json $CHEF_FILE_CACHE_PATH && \
+chef-solo -c $CHEF_FILE_CACHE_PATH/solo.rb -j $CHEF_FILE_CACHE_PATH/dna.json -r $CHEF_FILE_CACHE_PATH/cookbooks.tgz'\""
