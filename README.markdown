@@ -1,5 +1,11 @@
 Vagrant-EC2
 =============
+
+Depricated
+==========
+Everything these scripts do is done much better by the [vagrant-aws](https://github.com/mitchellh/vagrant-aws) plugin (which happens to be written by Vagrant's author).
+
+
 This repository shows how to use the same `chef-solo`-based provisioning scheme for Vagrant virtual machines and Amazon's EC2. This is useful because you'll be able to test the deployment procedures as you develop within a clean Vagrant machine. Running continuous deployment locally also saves tons of partial instance-hours, which can run into the hundreds of cents (I'm not made of money, people).
 
 These scripts have been tested only on Ubuntu Linux.
