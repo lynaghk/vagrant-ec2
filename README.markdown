@@ -1,7 +1,7 @@
 Vagrant-EC2
 =============
 
-Depricated
+Deprecated
 ==========
 Everything these scripts do is done much better by the [vagrant-aws](https://github.com/mitchellh/vagrant-aws) plugin (which happens to be written by Vagrant's author).
 
